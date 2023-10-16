@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Result</title>
+    <!-- Bootstrap CSS (you can download it or link to a CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/d005617e4a.js" crossorigin="anonymous"></script>
+    <style>
+        .result-card {
+            border: 1px solid #e5e5e5;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .chart-title {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .download-button {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="navbar navbar-expand-lg navbar-white bg-white">
+            <div class="container">
+                <!-- Page Title (You can replace "Page Title" with your actual title) -->
+                <h1 class="navbar-text-center">Result</h1>
+                
+                <div class="">
+                    <!-- Home Page Link -->
+                    <a class="btn btn-success" href="/">Inicio</a>
+                    
+                    <!-- Button to Start a New Survey -->
+                    <a class="btn btn-success" href="/survey">Comenzar Nueva Evaluación</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="result-card">
+                    <h2 class="chart-title">{{ result['first_chart_titel'] }}</h2>
+                    <img src="{{ url_for('static', filename=result['first_chart_path']) }}" alt="{{ result['first_chart_titel'] }}" class="img-fluid">
+                    <a href="{{ url_for('static', filename=result['first_chart_path']) }}" download="{{ result['first_chart_titel'] }}.png" class="btn btn-primary download-button">
+                        <i class="fa fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="result-card">
+                    <h2 class="chart-title">{{ result['second_chart_titel'] }}</h2>
+                    <img src="{{ url_for('static', filename=result['second_chart_path']) }}" alt="{{ result['second_chart_titel'] }}" class="img-fluid">
+                    <a href="{{ url_for('static', filename=result['second_chart_path']) }}" download="{{ result['second_chart_titel'] }}.png" class="btn btn-primary download-button">
+                        <i class="fa fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="result-card">
+                    <h2 class="chart-title">{{ result['third_chart_titel'] }}</h2>
+                    <img src="{{ url_for('static', filename=result['third_chart_path']) }}" alt="{{ result['third_chart_titel'] }}" class="img-fluid">
+                    <a href="{{ url_for('static', filename=result['third_chart_path']) }}" download="{{ result['third_chart_titel'] }}.png" class="btn btn-primary download-button">
+                        <i class="fa fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="result-card">
+                    <h2 class="chart-title">{{ result['fourth_chart_titel'] }}</h2>
+                    <img src="{{ url_for('static', filename=result['fourth_chart_path']) }}" alt="{{ result['fourth_chart_titel'] }}" class="img-fluid">
+                    <a href="{{ url_for('static', filename=result['fourth_chart_path']) }}" download="{{ result['fourth_chart_titel'] }}.png" class="btn btn-primary download-button">
+                        <i class="fa fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

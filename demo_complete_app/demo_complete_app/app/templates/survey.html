@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación</title>
+    <!-- Bootstrap CSS (you can download it or link to a CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <style>
+    .btn-group {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-group .btn {
+        flex: 1;
+        margin: 5px; /* Adjust the margin to control spacing */
+    }
+    </style>
+
+    <div class="container">
+        <header class="navbar navbar-expand-lg navbar-white bg-white">
+            <div class="container">
+                <!-- Page Title (You can replace "Page Title" with your actual title) -->
+                <h1 class="navbar-text-center">Survey</h1>
+                
+                <div class="">
+                    <!-- Home Page Link -->
+                    <a class="btn btn-success" href="/">Inicio</a>
+                    
+                    <!-- Button to Start a New Survey -->
+                    <a class="btn btn-success d-none" href="/survey">Comenzar Nueva Evaluación</a>
+                </div>
+            </div>
+        </header>
+        <form method="POST" action="/result" id="survey-form">
+            <input type="hidden" id="answers" name="answers" value="{}">
+            {% for index, question in questions %}
+            <div class="question-container" data-index="{{ index }}" style="display: none;">
+                <div class="row my-3">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Question {{ index + 1 }}</h5>
+                                <p class="card-text" style="min-height: 10em;">{{ question }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-md-12">
+                        <div class="btn-group btn-group-lg" role="group" aria-label="Answer Options">
+                            <button type="button" class="btn btn-primary btn-lg answer" data-value="1">1</button>
+                            <button type="button" class="btn btn-primary btn-lg answer" data-value="2">2</button>
+                            <button type="button" class="btn btn-primary btn-lg answer" data-value="3">3</button>
+                            <button type="button" class="btn btn-primary btn-lg answer" data-value="4">4</button>
+                        </div>
+                        <div class="btn btn-success btn-lg disabled d-flex justify-content-center finishing" style="visibility: hidden;">Finishing...</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <input id="submit-button" type="submit" class="invisible"></input>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const questions = document.querySelectorAll(".question-container");
+        let currentQuestion = 0;
+        let answers = {}; // Initialize an object to store answers
+
+        function showQuestion(index) {
+            questions[index].style.display = "block";
+            if (index > 0) {
+                questions[index - 1].style.display = "none";
+            }
+        }
+
+        function handleAnswerClick(event) {
+            const selectedValue = event.target.getAttribute("data-value");
+            answers[`q${currentQuestion + 1}`] = selectedValue; // Store the answer
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                showQuestion(currentQuestion);
+            } else {
+                const finishings = document.querySelectorAll(".finishing")
+                finishings[finishings.length - 1].style.visibility = "visible";
+                const buttons = document.querySelectorAll(".answer");
+                for (let index = 0; index < buttons.length; index++) {
+                    buttons[index].style.display = "none";
+                }
+                // Set the answers as a JSON string and update the hidden input field
+                document.getElementById("answers").value = JSON.stringify(answers);
+                // Automatically submit the form
+                document.getElementById("submit-button").click();
+            }
+        }
+
+        showQuestion(currentQuestion);
+
+        document.querySelectorAll(".answer").forEach(function (answerButton) {
+            answerButton.addEventListener("click", handleAnswerClick);
+        });
+    });
+</script>
+</body>
+</html>
